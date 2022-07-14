@@ -11,7 +11,7 @@ const { Client, Intents} = require('discord.js')
 const intents = new Intents(['GUILDS', 'GUILD_MESSAGES'])
 const client = new Client({ intents})
 
-let channel = ""
+let channel = "id channel"
 
 const Token = 'TOKEN'
 //  log
