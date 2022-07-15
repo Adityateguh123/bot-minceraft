@@ -16,7 +16,7 @@ let channel = "id channel"
 const Token = 'TOKEN'
 //  log
 
-let BOTNAME = bot.username
+
 bot.on('kicked', console.log); 
 bot.on('error', console.log);
 
