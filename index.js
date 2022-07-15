@@ -6,42 +6,28 @@ const bot = mineflayer.createBot({
  port: '', // port
  version: '', //versi
 });
-// discord
-const { Client, Intents} = require('discord.js')
-const intents = new Intents(['GUILDS', 'GUILD_MESSAGES'])
-const client = new Client({ intents})
-
-let channel = "id channel"
-
-const Token = 'TOKEN'
+const pvp = require('mineflayer-pvp').plugin
+const { pathfinder, Movements, goals } = require('mineflayer-pathfinder')
 //  log
-
-
 bot.on('kicked', console.log); 
 bot.on('error', console.log);
 
 // commads atau perintah
-
-client.on('ready', () => {
-  console.log(`The discord bot logged in! Username: ${client.user.username}!`) 
- client.channels.cache.get(channel) 
-  if (!channel) { console.log(`I could not find the channel `)                                               }
-})
-
-client.on('messageCreate', message => {
-  if (message.channel.id !== channel.id) return
-  
-  if (message.author.id === client.user.id) return
-  
-  bot.chat(`${message.author.username}: ${message.content}`)
-})
-
+bot.loadPlugin(pathfinder) 
+bot.loadPlugin(pvp)
 bot.on('chat', (username, message) => {
-  if (username === bot.username) return
+  if (message === '$pvp') {
+    const player = bot.players[username]
 
-  channel.send(`${username}: ${message}`)
+    if (!player) {
+      bot.chat("lu dimana gw ga liat ,coba ke sini.")
+      return
+    }
+
+    bot.pvp.attack(player.entity)
+  }
+
+  if (message === 'stop') {
+    bot.pvp.stop()
+  }
 })
-
-
-
-client.login(Token);
